@@ -106,6 +106,7 @@ set clipboard=unnamed
 syntax on
 set showmatch   " show matching brackets
 set mat=2       " # of tenths of a second to blink matching brackets
+set wildmode=longest,list  " have command-line completion <Tab>
 " Search settings
 set ignorecase  " ignore case in search patterns
 set smartcase   " don't ignore case when pattern has uppercase
