@@ -32,18 +32,22 @@ filetype plugin indent on    " required
 " see :h vundle for more details or wiki for FAQ
 " 
 
+"Syntastic
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
-let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
-let g:airline#extensions#tabline#enabled = 1
+"YouCompleteMe
+let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
 
+"vim-airline
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_theme='bubblegum'
 set laststatus=2
 
 "Kobrien VIMRC
