@@ -1,70 +1,92 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""" Plugin Section """"""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Specify a directory for plugins
+call plug#begin('~/.vim/plugged')
 
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
+" Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
+Plug 'junegunn/vim-easy-align'
 
-" Keep Plugin commands between vundle#begin/end.
-Plugin 'tpope/vim-fugitive'
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'vim-syntastic/syntastic'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'godlygeek/tabular'
+" On-demand loading
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
-" To ignore plugin indent changes, instead use:
-"filetype plugin on
-"
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
-" 
+" Initialize plugin system
+call plug#end()
 
-"Syntastic
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-let g:syntastic_error_symbol='✗'
-let g:syntastic_warning_symbol='⚠'
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_enable_signs = 1
-"Only syntax check on command
-"let g:syntastic_mode_map = { "mode": "passive" }
+"NerdTree Configuration:
+map <C-n> :NERDTreeToggle<CR>
 
-"YouCompleteMe
-"let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
-let g:ycm_global_ycm_extra_conf='~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
-let g:ycm_autoclose_preview_window_after_completion=1
-let g:ycm_show_diagnostics_ui = 0
+"EasyAlign Configuration:
+" Taken from: https://github.com/junegunn/vim-easy-align#readme
 
-"vim-airline
-let g:airline#extensions#tabline#enabled = 1
-let g:airline_theme='bubblegum'
-set laststatus=2
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
 
-"Kobrien VIMRC
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
+
+" Quick comma alignment
+xmap g, ga<Right>*,
+" Quick = alignment
+xmap g= ga=
+" Quick Open Paren alignment
+xmap g( :EasyAlign /(/<CR>
+" Quick Close Paren alignment
+xmap g) :EasyAlign /)/<CR>
+" Quick backtick alignment
+xmap g` :EasyAlign /`/<CR>
+" Quick semicolon alignment
+xmap g; :EasyAlign */;/<CR>
+" Quick left sq bracket alignment
+xmap g[ :EasyAlign */[/<CR>
+" Quick single quote alignment
+xmap g' :EasyAlign */'/<CR>
+" Quick LAST backslash alignment (for multiline macros)
+xmap g\ :EasyAlign -/\\/<CR>
+
+let g:easy_align_delimiters = {
+\ '>': { 'pattern': '>>\|=>\|>' },
+\ '/': {
+\     'pattern':         '//\+\|/\*\|\*/',
+\     'delimiter_align': 'l',
+\     'ignore_groups':   ['!Comment'] },
+\ ']': {
+\     'pattern':       '[[\]]',
+\     'left_margin':   0,
+\     'right_margin':  0,
+\     'stick_to_left': 0
+\   },
+\ ')': {
+\     'pattern':       '[()]',
+\     'left_margin':   0,
+\     'right_margin':  0,
+\     'stick_to_left': 0
+\   }
+\ }
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""" Personal Prefs """"""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Cursor/Column highlighting
+
+" From macOS:
 set cursorline
 set cursorcolumn
 hi CursorLine   cterm=NONE ctermbg=236 guibg=darkgrey
 hi CursorColumn cterm=NONE ctermbg=236 guibg=darkgrey
-hi Search ctermbg=3 ctermfg=16
+hi Search       ctermbg=3  ctermfg=16
+" From WSL/Windows:
+"set cursorline
+"set cursorcolumn
+""                                  17 = navyblue -> Good for solarized
+""                                       darkgrey -> Good for dark mode / black
+"hi CursorLine   cterm=NONE ctermbg=17 guibg=darkgrey
+"hi CursorColumn cterm=NONE ctermbg=17 guibg=darkgrey
+"hi Search       cterm=NONE ctermbg=17
 " Fix for screen ctrl+arrow
 map ^[O5D :tabp<CR>
 map ^[O5C :tabn<CR>
@@ -78,10 +100,13 @@ map ) <C-W>>
 " Never wrap anything
 set nowrap
 
+" Make backspace work
+set backspace=indent,eol,start
+
 if has("gui_running")    " apparently vim/view don't like folding
   colorscheme darkblue
 else
-"  #set background=dark
+  set background=dark
 endif
 
 
@@ -90,6 +115,10 @@ set shiftwidth=4  " shift width
 set tabstop=4     " tabstop a.k.a. ts
 set softtabstop=4
 set expandtab
+
+" Disable automatic line wrapping while inserting
+set textwidth=0
+set wrapmargin=0
 
 " Auto-indent and line numbers
 set smartindent "si"
@@ -113,8 +142,23 @@ set smartcase   " don't ignore case when pattern has uppercase
 set incsearch   " increment search
 set hlsearch    " turn on highlight search 
 
+autocmd BufNewFile,BufRead *.v set syntax=verilog
+autocmd BufNewFile,BufRead *.sv set syntax=systemverilog
+autocmd BufNewFile,BufRead *.svh set syntax=systemverilog
+
 command Ypretty call PrettyYaml()
 function PrettyYaml()
     exe "setlocal shiftwidth=2 foldmethod=indent"
 endfunction
 autocmd BufRead *.yml call PrettyYaml()
+
+command -nargs=0 FindDiffs /^>>>>\|^<<<<\|^====\|^||||
+
+"Remove all trailing whitespace by pressing F8
+nnoremap <F8> :let _s=@/ <Bar> :%s/\s\+$//e <Bar> :let @/=_s <Bar> :nohl <Bar> :unlet _s <CR>
+"Remove all trailing whitespace only if it comes after a semicolon by pressing F9
+nnoremap <F9> :let _s=@/ <Bar> :%s/;\s\+$/;/e <Bar> :let @/=_s <Bar> :nohl <Bar> :unlet _s <CR>
+"Immediately go to Find-Replace word under cursor shortcut by pressing \s
+:nnoremap <Leader>s :%s/\<<C-r><C-w>\>//g<Left><Left>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

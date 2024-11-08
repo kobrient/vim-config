@@ -1,6 +1,11 @@
-# vim-config
-Launch vim and run :PluginInstall
-https://github.com/tpope/vim-fugitive
-https://github.com/vim-syntastic/syntastic
-https://github.com/vim-airline/vim-airline
-https://github.com/Valloric/YouCompleteMe
+# Setup
+
+* Symlink `~/.vimrc` to `.vimrc` in this repo
+* Create `~/.vim` if it doesnt exist
+* Create `~/.vim/autoload` if it doesnt exist
+* Create `~/.vim/plugged` if it doesnt exist
+* Copy `.vim/autoload/plug.vim` to `~/.vim/autoload/`
+* Open Vim
+* `:PlugInstall`
+* `:PlugUpdate`
+
