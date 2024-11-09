@@ -13,6 +13,15 @@ Plug 'junegunn/vim-easy-align'
 " On-demand loading
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 
+" Git plugins
+Plug 'tpope/vim-fugitive'
+" gv.vim: ':GV' to open commit browser, ]] and [[ to move between commits, q to close
+" Requires vim-fugitive
+Plug 'junegunn/gv.vim'
+
+" Smooth Scrolling
+Plug 'terryma/vim-smooth-scroll'
+
 " Initialize plugin system
 call plug#end()
 
@@ -67,6 +76,11 @@ let g:easy_align_delimiters = {
 \   }
 \ }
 
+"Smooth-Scroll Configuration:
+noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 15, 2)<CR>
+noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 15, 2)<CR>
+noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 15, 4)<CR>
+noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 15, 4)<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """"""""""""""""""""" Personal Prefs """"""""""""""""""""""""""
@@ -115,6 +129,7 @@ set shiftwidth=4  " shift width
 set tabstop=4     " tabstop a.k.a. ts
 set softtabstop=4
 set expandtab
+set shiftround    " make it so >> and << indentation indents to nearest multiple of shiftwidth
 
 " Disable automatic line wrapping while inserting
 set textwidth=0
