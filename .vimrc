@@ -157,6 +157,7 @@ set smartcase   " don't ignore case when pattern has uppercase
 set incsearch   " increment search
 set hlsearch    " turn on highlight search 
 
+autocmd BufNewFile,BufRead * setlocal formatoptions-=c
 autocmd BufNewFile,BufRead *.v set syntax=verilog
 autocmd BufNewFile,BufRead *.sv set syntax=systemverilog
 autocmd BufNewFile,BufRead *.svh set syntax=systemverilog
